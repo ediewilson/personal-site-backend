@@ -1,0 +1,67 @@
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+# configuration
+DEBUG = True
+
+# instantiate the app
+app = Flask(__name__)
+app.config.from_object(__name__)
+
+# enable CORS
+CORS(app, resources={r'/*': {'origins': '*'}})
+
+
+# sanity check route
+@app.route('/ping', methods=['GET'])
+def ping_pong():
+    return jsonify('pong!')
+
+
+
+@app.route('/ISP', methods=['GET'])
+def journal_posts():
+    return jsonify(journalDict)
+
+
+journalDict = {
+    "weektwo": {
+        "title": "Bias in the Digital Humanities",
+        "subtitle": "Week 2 Reflection",
+        "text": [
+            "As researchers, historians, and students involved in digital humanities projects, we must stop and think about how bias creeps in to the projects that we’re designing and using, and how we can make conscious choices to weed out its existence.  Furthermore, we must make efforts to reflect on a larger scale. As stated by Jessica Lu in Confronting the Witness, “How will we be able to share with and learn from others if our personal work-arounds remain just that: personal?”.",
+            "Digital humanities projects are such powerful tools, as they are able to use existing software and technologies, as well as adapting to make their own, in order to visualize, present, and analyze history archives. For example, in the Dartmouth Digital History Initiative (DDHI), we use the Oral Histories (OH) Encoder to make a preliminary pass at adding XML tags to oral history transcripts, which research assistants later check over. The OH Encoder is a machine learning software which was trained using previously encoded transcripts, and has proved to be a huge time saver in the project.",
+            "When we see the work of cognitive systems like the OH Encoder, it seems almost human. Maybe this is a bit of a stretch - as a long time research assistant at the DDHI, I could easily see the mistakes that the encoder was making repeatedly. However, when working with a less experienced partner on a transcript, they agreed with many of the small mistakes that the encoder made. In Chapter 3 of Bodies of Information, the author talks about how we have “underexplored … the way that the “human” is articulated, produced, and normed in the drive toward emulating “human” processes”. It is later explained in this chapter that the level of cognition that a machine has may seem human to some, but quite a bit off to others. Back to my example of the DDHI: as an experienced encoder, I find myself sometimes frustrated with the level of understanding the OH Encoder has of our schema. It frequently tags places incorrectly, misses important events which blend into the transcript by nature of human speech, and forces me to spend extra time parsing through dates to add the “when” attribute to all of the tags, on top of removing imprecise date mentions such as “summer”, “that year”, or “fall term”. However, to an inexperienced research assistant, the cognition and performance of the machine seems incredible. To someone who is just beginning to learn the DDHI encoding schema, the level of cognition seems like an unbelievable development - likely because it matches their own knowledge of it.",
+            "When using the OH Encoder, we have to carefully comb through interviews to add and fix tags which are slightly off. These missed/incorrect tags seem to oftentimes contain names of places in Vietnam, and foreign or uncommon names, among other things. Since the people who are being interviewed are often English speaking, white men, educated in New England, these names and place references can be less common in interviews, therefore less available in data training sets. These are the same names that are sometimes missed even by more experienced research assistants. Using a Euro/North American centric data set to train our system created bias in unintended aspects of the project. This is the same issue which Bodies of Information warns can happen with the “Large-Scale Image Memorability” example in Chapter 3. Training a system with biased data will lead to the expected: a biased system.",
+            "Bias in Computer Systems, by Batya Friedman, and Helen Nissenbaum explains the ways that developers can view, identify, and limit biases present in systems they design. Besides the pre-existing bias, which in the DDHI example would emerge from the pool of interviewees, one that seems extremely important to consider in the context of a digital humanities project is the mismatch between users and system design (3.2 in the chapter). Making a timeline of an interview is something that needs to be designed as not in a strictly “how to humans read and perform research from an interview” manner, but in a “how do we, as humans, imagine, think temporally, and piece together and imagine the information that is presented to us” manner. It’s one thing to recognize the dates of the Vietnam War and present the events from an interview which occur between that start and end, but contextually more important to think about the movements of the story teller, life changing events which may be harder to grab and place from the interview, like when they had children, and how their attitudes and sentiment about the war was changing over that timeframe.",
+            "Being involved in digital humanities projects, and making use of the resources they provide us with presents us with unprecedented opportunity, but also requires caution and care. By creating these resources, we must consider the context of their use and the dissemination of bias throughout our projects."
+        ],
+        "sources": [
+            "Friedman, Batya, and Helen Nissenbaum. \"Bias in Computer Systems.\" ACM Transactions on Information Systems 14.3 (1996): 330-47. Print.",
+            "Risam, Roopika. \"What Passes for Human?: Undermining the Universal Subject in Digital Humanities Praxis.\" Bodies of Information: Intersectional Feminism and the Digital Humanities, edited by Elizabeth Losh and Jacqueline Wernimont, University of Minnesota Press, Minneapolis; London, 2018, pp. 39–56. JSTOR, www.jstor.org/stable/10.5749/j.ctv9hj9r9.6. Accessed 29 June 2021.",
+            "Lu, Jessica. \"Confronting \"the Witness\": Encoding Archives of Black Lives.\" African American History, Culture & Digital Humanities. 04 Aug. 2017. Web. 29 June 2021." 
+        ]
+    },
+    "weekthree": {
+        "title": "Digital Humanities and Oral Histories, Bias and Interpretation",
+        "subtitle": "Week 3 Reflection",
+        "text": [
+            "This week, I continued to explore bias in the digital humanities, but expanded my considerations to their historical human and technical origins. The readings touched on a wide variety of topics. They explored the power and nuances of oral histories and story telling, as well as the origins of visualizations in social science, and how unexpected patterns and takeaways can come from reframing the way you think about and view a dataset.",
+            "Writing History in the Digital Age examines how and why historians took a while to adopt data visualization tools. Most data visualizations used in other disciplines were too statistical and numbers based, and figures that were helpful in history texts usually required color, which was expensive to print. The shift to digital solved a few of these problems, but introduced new ones as well. Overcomplicated digital visualizations alienated consumers of the material with less background knowledge, while simpler charts and graphs tempted readers into picking between the text OR the figures, causing them to miss important information or oversimplify concepts by ignoring context. As figures became more commonplace in history, and data and resources shifted to digital platforms, creators of visualizations began to create tools which had the power to “highlight patterns present in the data and open new lines of inquiry”, rather than showcasing statistics and entities from the text out of context.",
+            "Although the development of more complex visualizations has created the ability to present data with higher density and transparency, it has also “increased the gaps between expert and novice interpreters”, raising challenges for historians who aim to provide the most effective visual approaches. Therefore, when developing a digital humanities tool, we have to consider the balance between providing as much data density and complexity in our tool as possible, and keeping the tool accessible (intellectually and technically) for all users. Such considerations will prevent developers from introduction system bias against certain users, and will help ensure that digital humanities tools help to make history more accessible for all demographics with any level of background knowledge.",
+            "Another pitfall of visualizations mentioned by the author is that “[e]ven accurate information can mislead if it is presented in a way that creates false visual cues”. When creating visualizations for oral histories, it’s important to consider how to best represent the information we have. Should we preserve the order of the story, or a chronological timeline? Should we represent places on the map which are mentioned outside the context of the general narrative? How do we compensate for mispronounced or less frequently mentioned names of foreign countries in a story? Oral histories are characterized by human sentiment, memory, and the flow of story telling, so the representation of datasets we create from them have lots of potential to highlight patterns and common themes when presented correctly.",
+            "In Danah Boyd’s article about teen engagement with MySpace and Facebook, she interviewed teens and asked about their attitudes towards Facebook and MySpace in the 2000s. Separately, the interviews seem to show personal preferences, undertones of racial themes, and ignorance of class divides. However, the interviews in a collection with the context of Facebook’s founding and the social issues at play, show the “white flight” that the author speculates from MySpace to Facebook.",
+            "As a reader, I consider a few facts from each interview to be important: 1. the age, race, and class of the person being interviewed, 2. When the interview was conducted, 3. The state/city/country where the interviewee was from, and 4. The sentiment of the interview, and what platform they favored. If I were making a visualization tool for this set of interviews, I would use a map, placing points at the location of each interview. I would add filters for race, sentiment, color code by platform membership, and have a timeline feature to filter interviews by the year they were conducted in order to see how attitudes changed over time. With these tools, a historian would be able to pick out patterns by interacting, without needing to sift through the entire article and form opinions about trends on the first pass.",
+            "In her guide to oral history, Valerie Raleigh Yow explains that in oral histories, the chronological order of the history isn’t the most important factor, but the order in which the interviewee feels the desire to tell it. Coherence comes from the way the interview flows, through digressions that the narrator feels are important, and the sentiments they express. Yow examines the frequency and importance of contradiction in oral histories, and observes that narrators often see themselves as actors - moving through the events of the time and doing as expected, asking to be understood in their actions with statements such as “you know” and “I mean”.",
+            "Importantly, Yow notes that how we interpret oral history is up to us as individuals, and that the conclusions we drive from our interpretations are non-definitive. As a developer in a digital humanities and oral history project, it’s my aim to create useful, transparent, and clear visualizations to help readers interpret interpret the interview, find useful conclusions, and identify patterns that can be hidden in the independent interview. It must be clear how data is organized and presented, why things are shown the way that they are, and consider the biases which may cause certain elements to be hidden or ordered in specific ways. The readings of this week illustrated the power of visualizations and the uniqueness of oral histories, and highlighted the importance of creating unbiased, easy to interact with tools, to allow users to make unique conclusions about the history they’re visualizing. As I begin to create my visualization tool this week, these considerations will be at the forefront of my mind.",
+        ],
+        "sources": [
+            "Boyd, Danah. (2011). \"White Flight in Networked Publics? How Race and Class Shaped American Teen Engagement with MySpace and Facebook.\" In Race After the Internet (eds. Lisa Nakamura and Peter A. Chow-White). Routledge, pp. 203-222.",
+            "Dougherty, Jack, and Kristen Nawrotzki. \"Writing History in the Digital Age.\" Digital Humanities (2013). Print.",
+            "Yow, Valerie Raleigh. \"Recording Oral History a Guide for the Humanities and Social Sciences\". Rowman & Littlefield, 2015. Print." 
+        ]
+    }
+}
+
+if __name__ == '__main__':
+    app.run()
